@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
+  <title>Chat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="./public/css/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+  <h2>Chat</h2>
+  <div id="chatPage" class="container">
+    <div class="sidebar">
+      <h4> Online users </h4>
+
+      <ul id="sidebar">
+        <!-- Here be messages -->
+      </ul>
+
+    </div>
+    <div class="chat">
+      <h3> Messages </h3>
+      <div id="messageArea" class="MessageArea">
+        <ul id="messages">
+          <!-- Here be messages -->
+        </ul>
+      </div>
+      <form id="form" class="message-form" action="">
+        <div class="input-field">
+          <textarea id="textarea2" class="materialize-textarea"></textarea>
+          <label for="textarea2"> Введите сообщение </label>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit" name="action"> Отправить </button>
+      </form>
+
+    </div>
+  </div>
+
+  <div id="loginPage" class="conta">
+    <form id="loginForm" action="">
+
+      <div class="input-field ">
+        <input id="login" type="text" class="validate">
+        <label for="login">Enter login</label>
+      </div>
+
+      <button class="btn waves-effect waves-light" type="submit">Войти</button>
+    </form>
+  </div>
+
+
+  <script>
+    $('#chatPage').hide()
+    $(function () {
+      var socket = io()
+      socket.on('new user', function (data) {
+        $('#messages').append($('<li class = "connected">').text(data + ' is connected'))
+      })
+      socket.on('update users', function (data) {
+        console.log("Users: " + data)
+        if (data != [] && data) {
+          $('#sidebar').empty()
+          for (i = 0; i < data.length; i++) {
+            $('#sidebar').append($('<li class = "user">').text(data[i]))
+          }
+        };
+
+      });
+      $('#form').submit(function (e) {
+        e.preventDefault(); // prevents page reloading
+        if ($('#textarea2').val().trim()) socket.emit('chat message', $('#textarea2').val());
+        $('#textarea2').val('');
+        return false;
+      });
+
+      $('#loginForm').submit(function (e) {
+        e.preventDefault(); // prevents page reloading
+        if ($('#login').val()) {
+          console.log('Новый позьзователь' + $('#login').val());
+          socket.emit('new user', $('#login').val());
+          $('#loginPage').hide()
+          $('#chatPage').show()
+        }
+        $('#login').val('')
+        return false;
+      });
+
+      socket.on('chat message', function (data) {
+        $('#messages').append($('<li>').text(data.from + ' : ' + data.message))
+      })
+
+      socket.on('bye', function (data) {
+        $('#messages').append($('<li class = "disconnected">').text(data + ' disconnected'))
+      });
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>

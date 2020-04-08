@@ -1,0 +1,68 @@
+.container{
+    display: grid;
+    grid-template-columns: 26% 74%;
+    border: grey 3px solid;
+    padding: 10px;
+}
+.chat{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    background: rgb(250, 250, 250);
+    min-height: 600px;
+    width: 100%;
+    max-width: 900px;
+    padding-left: 5px;
+    border-left: 3px solid rgb(183, 186, 183);
+}
+
+.input-field{
+    margin: 0;
+}
+.MessageArea{
+    overflow: auto;
+    scroll-behavior: smooth;
+    height: 470px;
+    width: 100%;
+    /* background: rgb(214, 71, 71); */
+}
+.sidebar{
+    
+    display: grid;
+    grid-template-rows: 10% 90%;
+    vertical-align: top;
+    background: rgb(250, 250, 250);
+}
+.sidebar li{
+    overflow-wrap: break-word;
+}
+form{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 80%;
+    margin: auto;
+    min-height: 120px;
+}
+.message-form{
+    border: 1px solid rgb(25, 125, 102);
+    border-radius: 10px;
+}
+.connected{
+    color: green;
+    font-weight: bold;
+}
+.disconnected{
+    color: rgb(223, 43, 43);
+    font-weight: bold;
+}
+.user{
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(23, 184, 209);
+} 
+.materialize-textarea{
+    overflow-wrap: break-word;
+    padding: 0;
+}
