@@ -3,8 +3,9 @@ const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
+const PORT = 8080
 
-server.listen(8080);
+server.listen(PORT, ()=> console.log(`server is started on port ${PORT}`));
 app.use(express.static(__dirname + '/'));
 
 app.get('/', function (req, res) {
